@@ -263,6 +263,16 @@ button.ghost{
 
   <p style="margin-top:10px;">Session :</p>
   <button class="ghost" onclick="logout()">Déconnexion</button>
+
+  <!-- SECTION ADMIN -->
+  <div id="adminForumSection" style="display:none;margin-top:15px;border-top:1px solid var(--border);padding-top:12px;">
+    <h3>Créer un nouveau forum (Admin uniquement)</h3>
+    <input id="newForumCode" placeholder="Code du forum (ex: SPORTS01)">
+    <input id="newForumName" placeholder="Nom du forum (ex: Forum Sports)">
+    <button class="btn" onclick="createForum()">Créer le forum</button>
+    <p id="adminMsg" class="message"></p>
+    <div id="adminForumList"></div>
+  </div>
 </div>
 
 <!-- AIDE -->
@@ -293,15 +303,22 @@ function showSection(id){
 let accounts = JSON.parse(localStorage.getItem("accounts")||"{}");
 let currentUser = localStorage.getItem("currentUser") || null;
 
+// --- ADMIN ACCOUNT ---
+const adminUsername="Admin";
+const adminPassword="Admin123";
+if(!accounts[adminUsername]){
+  accounts[adminUsername] = adminPassword;
+  localStorage.setItem("accounts", JSON.stringify(accounts));
+}
+
 function register(){
   let u=document.getElementById("authUser").value.trim();
   let p=document.getElementById("authPass").value;
   let p2=document.getElementById("authPass2").value;
-
   if(!u||!p) return alert("Champs manquants");
   if(p!==p2) return alert("Les mots de passe ne correspondent pas");
   if(accounts[u]) return alert("Nom déjà pris");
-
+  if(u==="Admin") return alert("Nom réservé");
   accounts[u]=p;
   localStorage.setItem("accounts", JSON.stringify(accounts));
   alert("Compte créé !");
@@ -310,13 +327,13 @@ function register(){
 function login(){
   let u=document.getElementById("authUser").value.trim();
   let p=document.getElementById("authPass").value;
-
   if(accounts[u] && accounts[u]===p){
     currentUser=u;
     localStorage.setItem("currentUser", u);
     document.getElementById("paramBtn").style.display="inline-block";
     initUser();
     showSection("note");
+    checkAdminAccess();
   }
   else alert("Login incorrect");
 }
@@ -339,12 +356,6 @@ function initUser(){
   document.getElementById("notepad").value = localStorage.getItem("note_"+currentUser)||"";
 }
 
-if(currentUser){
-  document.getElementById("paramBtn").style.display="inline-block";
-  initUser();
-  showSection("note");
-} else showSection("auth");
-
 /* ---------------- NOTE ---------------- */
 function saveNote(){
   localStorage.setItem("note_"+currentUser, document.getElementById("notepad").value);
@@ -354,7 +365,9 @@ function saveNote(){
 /* ---------------- RDV ---------------- */
 function addRdv(){
   const div=document.createElement("div");
-  div.textContent = document.getElementById("rdvName").value+" — "+document.getElementById("rdvDate").value+" "+document.getElementById("rdvTime").value;
+  div.textContent = document.getElementById("rdvName").value+" — "+
+                    document.getElementById("rdvDate").value+" "+
+                    document.getElementById("rdvTime").value;
   document.getElementById("rdvList").appendChild(div);
 }
 
@@ -362,12 +375,10 @@ function addRdv(){
 function joinForum(){
   let code=document.getElementById("forumCode").value.trim();
   if(!validCodes[code]) return alert("Code invalide");
-
   if(!joinedForums.includes(code)){
     joinedForums.push(code);
     localStorage.setItem("joinedForums_"+currentUser, JSON.stringify(joinedForums));
   }
-
   renderJoinedForums();
   openForum(code);
 }
@@ -387,7 +398,6 @@ function renderJoinedForums(){
 function openForum(code){
   currentForum=code;
   localStorage.setItem("lastForum_"+currentUser, code);
-
   document.getElementById("forumArea").style.display="block";
   document.getElementById("forumTitle").textContent = validCodes[code];
   renderPosts();
@@ -400,18 +410,14 @@ function closeForum(){
 
 function addPost(){
   if(!currentForum) return;
-
   const text=document.getElementById("postText").value.trim();
   const file=document.getElementById("postImage").files[0];
-
   if(!text && !file) return alert("Message vide");
-
   if(file){
     const reader=new FileReader();
     reader.onload=e=>savePost(text,e.target.result);
     reader.readAsDataURL(file);
   } else savePost(text,null);
-
   document.getElementById("postText").value="";
   document.getElementById("postImage").value="";
 }
@@ -424,7 +430,6 @@ function savePost(text,image){
     image,
     date:new Date().toLocaleString()
   });
-
   localStorage.setItem("forums", JSON.stringify(forums));
   renderPosts();
 }
@@ -432,42 +437,96 @@ function savePost(text,image){
 function renderPosts(){
   const box=document.getElementById("postsList");
   box.innerHTML="";
-
   if(!forums[currentForum]) return;
-
   forums[currentForum].forEach(p=>{
     const div=document.createElement("div");
     div.className="post";
-
     const meta=document.createElement("div");
     meta.className="meta";
     meta.textContent=p.user+" — "+p.date;
-
     div.appendChild(meta);
-
-    if(p.text){
-      const t=document.createElement("p");
-      t.textContent=p.text;
-      div.appendChild(t);
-    }
-
-    if(p.image){
-      const img=document.createElement("img");
-      img.src=p.image;
-      div.appendChild(img);
-    }
-
+    if(p.text){const t=document.createElement("p"); t.textContent=p.text; div.appendChild(t);}
+    if(p.image){const img=document.createElement("img"); img.src=p.image; div.appendChild(img);}
     box.appendChild(div);
   });
 }
 
-/* ---------------- PARAMS ---------------- */
+/* ---------------- PARAMS / ADMIN ---------------- */
 function logout(){
   currentUser=null;
   localStorage.removeItem("currentUser");
   showSection("auth");
   location.reload();
 }
+
+function changeUsername(){
+  const newUser=document.getElementById("newUser").value.trim();
+  if(!newUser) return;
+  if(newUser==="Admin") return alert("Nom réservé");
+  accounts[newUser]=accounts[currentUser];
+  delete accounts[currentUser];
+  localStorage.setItem("accounts", JSON.stringify(accounts));
+  localStorage.setItem("currentUser", newUser);
+  currentUser=newUser;
+  alert("Pseudo changé !");
+}
+
+function changePassword(){
+  const oldPass=document.getElementById("oldPass").value;
+  const newPass=document.getElementById("newPass").value;
+  const newPass2=document.getElementById("newPass2").value;
+  if(!oldPass || !newPass) return alert("Champs manquants");
+  if(oldPass!==accounts[currentUser]) return alert("Ancien mot de passe incorrect");
+  if(newPass!==newPass2) return alert("Les mots de passe ne correspondent pas");
+  accounts[currentUser]=newPass;
+  localStorage.setItem("accounts", JSON.stringify(accounts));
+  alert("Mot de passe changé !");
+}
+
+// --- ADMIN FUNCTIONS ---
+function checkAdminAccess(){
+  document.getElementById("adminForumSection").style.display =
+    currentUser===adminUsername ? "block" : "none";
+}
+
+function createForum(){
+  const code=document.getElementById("newForumCode").value.trim();
+  const name=document.getElementById("newForumName").value.trim();
+  if(!code || !name){
+    document.getElementById("adminMsg").textContent="Remplis tous les champs";
+    document.getElementById("adminMsg").className="message error";
+    return;
+  }
+  if(validCodes[code]){
+    document.getElementById("adminMsg").textContent="Code déjà existant";
+    document.getElementById("adminMsg").className="message error";
+    return;
+  }
+  validCodes[code]=name;
+  localStorage.setItem("validCodes", JSON.stringify(validCodes));
+  document.getElementById("adminMsg").textContent="Forum créé !";
+  document.getElementById("adminMsg").className="message success";
+  renderAdminForumList();
+}
+
+function renderAdminForumList(){
+  const list=document.getElementById("adminForumList");
+  list.innerHTML="";
+  for(const code in validCodes){
+    const div=document.createElement("div");
+    div.textContent=code+" : "+validCodes[code];
+    list.appendChild(div);
+  }
+}
+
+// INIT ON LOAD
+if(currentUser){
+  document.getElementById("paramBtn").style.display="inline-block";
+  initUser();
+  checkAdminAccess();
+  showSection("note");
+} else showSection("auth");
+
 </script>
 
 </body>
