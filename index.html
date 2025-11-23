@@ -1,405 +1,306 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <title>Polyex</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
-/* === THEME VARIABLES === */
 :root {
-  --violet: #7f5af0;
-  --violet-dark: #5a3dcf;
-  --turquoise: #4acfd1;
-  --turquoise-light: #76e3e5;
-  --bg: #f5f7fb;
-  --text: #222;
-  --panel: #ffffff;
-  --border: #e5e7eb;
+  --violet: #6b42c1;
+  --violet-dark: #4a2a8c;
+  --turquoise: #33c4c4;
+  --turquoise-light: #5cdcdc;
+  --bg: #1e1e2e;
+  --text: #e0e0e0;
+  --panel: #2a2a40;
+  --border: #444;
 }
 
-/* === GLOBAL === */
-body{
-  font-family:Arial, sans-serif;
-  background:var(--bg);
+body {
   margin:0;
-  padding:0;
-  color:var(--text);
-  -webkit-tap-highlight-color: transparent;
+  font-family:Arial,sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
 
-/* === HEADER === */
-header{
-  background:var(--violet);
-  color:#fff;
-  padding:12px 14px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;
+header {
+  background: var(--violet);
+  color: var(--text);
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  position: sticky;
   top:0;
-  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+  z-index: 10;
 }
 
-header h1{
-  flex-grow:1;
-  text-align:center;
-  margin:0;
-  font-size:20px;
+nav {
+  background: var(--violet-dark);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  position: sticky;
+  top: 55px;
+  z-index:9;
 }
 
-/* Burger */
-.burger{
-  width:30px;
-  height:20px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  cursor:pointer;
-}
-.burger div{
-  height:4px;
-  background:white;
-  border-radius:2px;
+nav button {
+  background: var(--turquoise);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--bg);
+  cursor: pointer;
 }
 
-/* Paramètre */
-#paramBtn{
-  display:none;
-  background:var(--turquoise);
-  padding:8px 12px;
-  border:none;
-  border-radius:6px;
-  color:white;
-  cursor:pointer;
-}
-#paramBtn:hover{
-  background:var(--turquoise-light);
+nav button:hover {
+  background: var(--turquoise-light);
 }
 
-/* === MENU LATERAL === */
-#sideMenu{
-  position:fixed;
-  top:0;
-  left:-260px;
-  width:240px;
-  height:100%;
-  background:var(--violet-dark);
-  padding-top:70px;
-  transition:0.25s;
-  z-index:20;
-}
-#sideMenu button{
-  width:85%;
-  margin:10px auto;
-  padding:12px;
-  border:none;
-  border-radius:6px;
-  background:rgba(255,255,255,0.1);
-  color:white;
-  cursor:pointer;
-}
-#sideMenu button:hover{
-  background:rgba(255,255,255,0.2);
+.section { display:none; padding: 15px; }
+
+.panel {
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
 }
 
-/* === PANELS === */
-main{
-  padding:14px;
-}
-
-.panel{
-  background:white;
-  padding:16px;
-  border-radius:10px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-  max-width:800px;
-  margin:auto;
-  margin-top:15px;
-}
-
-.section{ display:none; }
-.active{ display:block; }
-
-/* Inputs */
-input, textarea{
+input, textarea {
   width:100%;
   padding:10px;
+  margin:6px 0;
   border-radius:8px;
   border:1px solid var(--border);
-  margin:6px 0;
-  font-size:15px;
+  background: #1f1f35;
+  color: var(--text);
 }
-textarea { height:130px; resize:vertical; }
 
-/* Buttons */
-button.btn{
-  background:var(--violet);
-  color:white;
-  padding:10px 14px;
+textarea { resize: vertical; height: 120px; }
+
+button.btn {
+  background: var(--turquoise);
+  color: var(--bg);
   border:none;
+  padding:10px 16px;
   border-radius:8px;
   cursor:pointer;
-}
-button.btn:hover{
-  background:var(--violet-dark);
-}
-
-button.ghost{
-  background:#e5e5e5;
-  color:#222;
+  font-weight:bold;
+  margin-top:5px;
 }
 
-/* Forum messages */
-.post{
-  background:white;
-  padding:10px;
+button.btn:hover {
+  background: var(--turquoise-light);
+}
+
+button.ghost {
+  background: var(--violet-dark);
+  color: var(--text);
+}
+
+.post {
+  background: #2b2b45;
+  padding: 10px;
   border-radius:8px;
-  border:1px solid var(--border);
   margin-bottom:10px;
+  border-left: 4px solid var(--turquoise);
 }
-.post img{
+
+.post img {
   max-width:100%;
-  max-height:260px;
-  border-radius:8px;
+  max-height:250px;
+  border-radius:6px;
   margin-top:6px;
 }
-.meta{
+
+.meta {
   font-size:12px;
-  color:#666;
-  margin-bottom:4px;
+  color:#ccc;
+  margin-bottom:5px;
 }
+.message {padding:8px;border-radius:6px;margin-top:6px;font-weight:bold;}
+.success {background:#2ecc71;}
+.error {background:#e74c3c;}
 </style>
 </head>
-
 <body>
 
-<header>
-  <div class="burger" onclick="toggleMenu()">
-      <div></div><div></div><div></div>
+<header>POLYEX <span id="userRole"></span></header>
+
+<nav>
+  <button onclick="showSection('forum')">Forums</button>
+  <button onclick="showSection('note')">Bloc-notes</button>
+  <button onclick="showSection('rdv')">Rendez-vous</button>
+  <button onclick="showSection('params')">Paramètres</button>
+  <button onclick="showSection('account')">Compte</button>
+</nav>
+
+<!-- FORUM -->
+<div id="forum" class="section">
+  <h2>Forums</h2>
+  <div>
+    <input id="forumCode" placeholder="Code du forum">
+    <button class="btn" onclick="joinForum()">Entrer</button>
   </div>
-  <h1>Polyex Outils</h1>
-  <button id="paramBtn" onclick="showSection('params')">Paramètres</button>
-</header>
-
-<!-- MENU -->
-<div id="sideMenu">
-  <button onclick="showSection('auth'); toggleMenu()">Compte / Connexion</button>
-  <button onclick="showSection('note'); toggleMenu()">Bloc-notes</button>
-  <button onclick="showSection('rdv'); toggleMenu()">Rendez-vous</button>
-  <button onclick="showSection('forum'); toggleMenu()">Forum</button>
-  <button onclick="showSection('help'); toggleMenu()">Aide</button>
+  <div id="joinedForums" style="margin-top:10px;"></div>
+  <div id="forumArea" style="display:none;margin-top:10px;">
+    <h3 id="forumTitle"></h3>
+    <textarea id="postText" placeholder="Écris ton message"></textarea>
+    <input type="file" id="postImage" accept="image/*">
+    <button class="btn" onclick="addPost()">Poster</button>
+    <h4>Messages</h4>
+    <div id="postsList"></div>
+    <button class="ghost" onclick="closeForum()">Fermer le forum</button>
+  </div>
 </div>
 
-<main>
-
-<!-- AUTH -->
-<div id="auth" class="section panel">
-  <h2>Connexion / Inscription</h2>
-  <input id="authUser" placeholder="Nom d'utilisateur">
-  <input id="authPass" type="password" placeholder="Mot de passe">
-  <input id="authPass2" type="password" placeholder="Répéter mot de passe (inscription)">
-  <button class="btn" onclick="register()">S'inscrire</button>
-  <button class="btn" onclick="login()">Se connecter</button>
-  <p id="authMsg" class="message"></p>
-</div>
-
-<!-- NOTE -->
-<div id="note" class="section panel">
+<!-- BLOC-NOTES -->
+<div id="note" class="section">
   <h2>Bloc-notes</h2>
-  <textarea id="notepad"></textarea>
+  <textarea id="notepad" placeholder="Écris ici..."></textarea>
   <button class="btn" onclick="saveNote()">Sauvegarder</button>
 </div>
 
-<!-- RDV -->
-<div id="rdv" class="section panel">
+<!-- RENDEZ-VOUS -->
+<div id="rdv" class="section">
   <h2>Rendez-vous</h2>
-  <input id="rdvName" placeholder="Titre">
+  <input id="rdvTitle" placeholder="Titre">
   <input id="rdvDate" type="date">
   <input id="rdvTime" type="time">
   <button class="btn" onclick="addRdv()">Ajouter</button>
-  <div id="rdvList"></div>
+  <div id="rdvList" style="margin-top:10px;"></div>
 </div>
 
-<!-- FORUM -->
-<div id="forum" class="section panel">
-  <h2>Forum</h2>
-
-  <div id="forumAccess">
-    <p>Entrer un code de forum :</p>
-    <input id="forumCode" placeholder="Code d'accès">
-    <button class="btn" onclick="joinForum()">Entrer</button>
-  </div>
-
-  <div id="joinedForums" style="margin-top:10px"></div>
-
-  <div id="forumArea" style="display:none;margin-top:15px">
-      <h3 id="forumTitle"></h3>
-
-      <textarea id="postText" placeholder="Écris un message..."></textarea>
-      <input type="file" id="postImage" accept="image/*">
-
-      <button class="btn" onclick="addPost()">Poster</button>
-
-      <h4>Messages</h4>
-      <div id="postsList"></div>
-
-      <button class="ghost" onclick="closeForum()">Fermer</button>
-  </div>
-</div>
-
-<!-- PARAMETRES -->
-<div id="params" class="section panel">
+<!-- PARAMÈTRES -->
+<div id="params" class="section">
   <h2>Paramètres</h2>
-  <p>Changer de pseudo :</p>
-  <input id="newUser">
-  <button class="btn" onclick="changeUsername()">Valider</button>
-
-  <p style="margin-top:10px;">Changer de mot de passe :</p>
-  <input id="oldPass" type="password" placeholder="Ancien mot de passe">
-  <input id="newPass" type="password" placeholder="Nouveau mot de passe">
-  <input id="newPass2" type="password" placeholder="Confirmer">
-  <button class="btn" onclick="changePassword()">Valider</button>
-
-  <p style="margin-top:10px;">Session :</p>
-  <button class="ghost" onclick="logout()">Déconnexion</button>
+  <p>Connecté en : <b id="currentUserDisplay">Aucun</b></p>
 
   <!-- SECTION ADMIN -->
-  <div id="adminForumSection" style="display:none;margin-top:15px;border-top:1px solid var(--border);padding-top:12px;">
-    <h3>Créer un nouveau forum (Admin uniquement)</h3>
-    <input id="newForumCode" placeholder="Code du forum (ex: SPORTS01)">
-    <input id="newForumName" placeholder="Nom du forum (ex: Forum Sports)">
-    <button class="btn" onclick="createForum()">Créer le forum</button>
-    <p id="adminMsg" class="message"></p>
+  <div id="adminForumSection" style="display:none; margin-top:15px; padding:10px; background:#1f1f35; border-radius:8px;">
+    <h3>Créer un forum (Admin)</h3>
+    <input id="newForumCode" placeholder="Code du forum (ex: SPORT01)">
+    <input id="newForumName" placeholder="Nom du forum">
+    <button class="btn" onclick="createForum()">Créer</button>
+    <p id="adminMsg"></p>
+    <h3>Forums existants</h3>
     <div id="adminForumList"></div>
   </div>
+
+  <button class="ghost" style="margin-top:15px;" onclick="logout()">Déconnexion</button>
 </div>
 
-<!-- AIDE -->
-<div id="help" class="section panel">
-  <h2>Aide</h2>
-  <ul>
-    <li>Forums sauvegardés automatiquement</li>
-    <li>Rejoint + recharge automatique au démarrage</li>
-    <li>Compatible iPhone / Android / PC</li>
-  </ul>
+<!-- COMPTE -->
+<div id="account" class="section">
+  <h2>Connexion</h2>
+  <input id="loginUser" placeholder="Nom d'utilisateur">
+  <input id="loginPass" type="password" placeholder="Mot de passe">
+  <button class="btn" onclick="login()">Se connecter</button>
+  <div id="accountMsg"></div>
 </div>
-
-</main>
 
 <script>
-/* ---------------- MENU ---------------- */
-function toggleMenu(){
-  const menu=document.getElementById("sideMenu");
-  menu.style.left = menu.style.left==="0px" ? "-260px" : "0px";
-}
-
-function showSection(id){
-  document.querySelectorAll('.section').forEach(x => x.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-/* ---------------- AUTH ---------------- */
+/* ---------------- STOCKAGE ---------------- */
 let accounts = JSON.parse(localStorage.getItem("accounts")||"{}");
 let currentUser = localStorage.getItem("currentUser") || null;
+let validCodes = JSON.parse(localStorage.getItem("validCodes")||'{"SPORT01":"Sport","MUSIC01":"Musique"}');
+let forums = JSON.parse(localStorage.getItem("forums")||"{}");
+let joinedForums = [];
+let currentForum = null;
 
-// --- ADMIN ACCOUNT ---
+/* Création automatique compte admin */
 const adminUsername="Admin";
 const adminPassword="Admin345";
 if(!accounts[adminUsername]){
   accounts[adminUsername] = adminPassword;
-  localStorage.setItem("accounts", JSON.stringify(accounts));
+  localStorage.setItem("accounts",JSON.stringify(accounts));
 }
 
-function register(){
-  let u=document.getElementById("authUser").value.trim();
-  let p=document.getElementById("authPass").value;
-  let p2=document.getElementById("authPass2").value;
-  if(!u||!p) return alert("Champs manquants");
-  if(p!==p2) return alert("Les mots de passe ne correspondent pas");
-  if(accounts[u]) return alert("Nom déjà pris");
-  if(u==="Admin") return alert("Nom réservé");
-  accounts[u]=p;
-  localStorage.setItem("accounts", JSON.stringify(accounts));
-  alert("Compte créé !");
+/* ---------------- NAVIGATION ---------------- */
+function showSection(id){
+  document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+  document.getElementById(id).style.display="block";
 }
 
+/* ---------------- LOGIN ---------------- */
 function login(){
-  let u=document.getElementById("authUser").value.trim();
-  let p=document.getElementById("authPass").value;
-  if(accounts[u] && accounts[u]===p){
-    currentUser=u;
-    localStorage.setItem("currentUser", u);
-    document.getElementById("paramBtn").style.display="inline-block";
-    initUser();
-    showSection("note");
-    checkAdminAccess();
+  const user = document.getElementById("loginUser").value.trim();
+  const pass = document.getElementById("loginPass").value.trim();
+  if(!accounts[user] || accounts[user]!==pass){
+    document.getElementById("accountMsg").innerHTML="<div class='message error'>Identifiants incorrects</div>";
+    return;
   }
-  else alert("Login incorrect");
+  currentUser=user;
+  localStorage.setItem("currentUser",user);
+  document.getElementById("currentUserDisplay").innerText=currentUser;
+  document.getElementById("userRole").innerText=user===adminUsername ? " (Admin)" : "";
+  initUser();
+  showSection('forum');
 }
 
 /* ---------------- INIT USER ---------------- */
-let forums = JSON.parse(localStorage.getItem("forums")||"{}");
-let validCodes = JSON.parse(localStorage.getItem("validCodes")||'{"SPORT01":"Sport","MUSIC01":"Musique"}');
-
-let joinedForums = [];
-let currentForum = null;
-
 function initUser(){
   joinedForums = JSON.parse(localStorage.getItem("joinedForums_"+currentUser)||"[]");
-
   renderJoinedForums();
+  renderAdminForumList();
+  document.getElementById("adminForumSection").style.display = currentUser===adminUsername?"block":"none";
 
-  let last = localStorage.getItem("lastForum_"+currentUser);
+  const last = localStorage.getItem("lastForum_"+currentUser);
   if(last) openForum(last);
 
   document.getElementById("notepad").value = localStorage.getItem("note_"+currentUser)||"";
 }
 
-/* ---------------- NOTE ---------------- */
+/* ---------------- BLOC-NOTES ---------------- */
 function saveNote(){
-  localStorage.setItem("note_"+currentUser, document.getElementById("notepad").value);
-  alert("Sauvegardé !");
+  localStorage.setItem("note_"+currentUser,document.getElementById("notepad").value);
+  alert("Bloc-notes sauvegardé !");
 }
 
-/* ---------------- RDV ---------------- */
+/* ---------------- RENDEZ-VOUS ---------------- */
 function addRdv(){
+  const title=document.getElementById("rdvTitle").value.trim();
+  const date=document.getElementById("rdvDate").value;
+  const time=document.getElementById("rdvTime").value;
+  if(!title || !date || !time) return alert("Remplis tous les champs");
   const div=document.createElement("div");
-  div.textContent = document.getElementById("rdvName").value+" — "+
-                    document.getElementById("rdvDate").value+" "+
-                    document.getElementById("rdvTime").value;
+  div.textContent=`${title} — ${date} ${time}`;
   document.getElementById("rdvList").appendChild(div);
 }
 
 /* ---------------- FORUM ---------------- */
 function joinForum(){
-  let code=document.getElementById("forumCode").value.trim();
+  const code = document.getElementById("forumCode").value.trim();
   if(!validCodes[code]) return alert("Code invalide");
-  if(!joinedForums.includes(code)){
-    joinedForums.push(code);
-    localStorage.setItem("joinedForums_"+currentUser, JSON.stringify(joinedForums));
-  }
+  if(!joinedForums.includes(code)) joinedForums.push(code);
+  localStorage.setItem("joinedForums_"+currentUser,JSON.stringify(joinedForums));
   renderJoinedForums();
   openForum(code);
+  document.getElementById("forumCode").value="";
 }
 
 function renderJoinedForums(){
   const box=document.getElementById("joinedForums");
   box.innerHTML="";
-  joinedForums.forEach(code=>{
+  joinedForums.forEach(c=>{
     const b=document.createElement("button");
     b.className="btn";
-    b.textContent=validCodes[code];
-    b.onclick=()=>openForum(code);
+    b.textContent=validCodes[c];
+    b.onclick=()=>openForum(c);
     box.appendChild(b);
   });
 }
 
 function openForum(code){
   currentForum=code;
-  localStorage.setItem("lastForum_"+currentUser, code);
+  localStorage.setItem("lastForum_"+currentUser,code);
+  document.getElementById("forumTitle").textContent=validCodes[code];
   document.getElementById("forumArea").style.display="block";
-  document.getElementById("forumTitle").textContent = validCodes[code];
   renderPosts();
 }
 
@@ -413,25 +314,22 @@ function addPost(){
   const text=document.getElementById("postText").value.trim();
   const file=document.getElementById("postImage").files[0];
   if(!text && !file) return alert("Message vide");
+  if(!forums[currentForum]) forums[currentForum]=[];
   if(file){
     const reader=new FileReader();
-    reader.onload=e=>savePost(text,e.target.result);
+    reader.onload=e=>{
+      forums[currentForum].push({user:currentUser,text,image:e.target.result,date:new Date().toLocaleString()});
+      localStorage.setItem("forums",JSON.stringify(forums));
+      renderPosts();
+    };
     reader.readAsDataURL(file);
-  } else savePost(text,null);
+  } else {
+    forums[currentForum].push({user:currentUser,text,image:null,date:new Date().toLocaleString()});
+    localStorage.setItem("forums",JSON.stringify(forums));
+    renderPosts();
+  }
   document.getElementById("postText").value="";
   document.getElementById("postImage").value="";
-}
-
-function savePost(text,image){
-  if(!forums[currentForum]) forums[currentForum]=[];
-  forums[currentForum].push({
-    user:currentUser,
-    text,
-    image,
-    date:new Date().toLocaleString()
-  });
-  localStorage.setItem("forums", JSON.stringify(forums));
-  renderPosts();
 }
 
 function renderPosts(){
@@ -445,88 +343,49 @@ function renderPosts(){
     meta.className="meta";
     meta.textContent=p.user+" — "+p.date;
     div.appendChild(meta);
-    if(p.text){const t=document.createElement("p"); t.textContent=p.text; div.appendChild(t);}
-    if(p.image){const img=document.createElement("img"); img.src=p.image; div.appendChild(img);}
+    if(p.text){ const t=document.createElement("p"); t.textContent=p.text; div.appendChild(t);}
+    if(p.image){ const img=document.createElement("img"); img.src=p.image; div.appendChild(img);}
     box.appendChild(div);
   });
 }
 
-/* ---------------- PARAMS / ADMIN ---------------- */
-function logout(){
-  currentUser=null;
-  localStorage.removeItem("currentUser");
-  showSection("auth");
-  location.reload();
-}
-
-function changeUsername(){
-  const newUser=document.getElementById("newUser").value.trim();
-  if(!newUser) return;
-  if(newUser==="Admin") return alert("Nom réservé");
-  accounts[newUser]=accounts[currentUser];
-  delete accounts[currentUser];
-  localStorage.setItem("accounts", JSON.stringify(accounts));
-  localStorage.setItem("currentUser", newUser);
-  currentUser=newUser;
-  alert("Pseudo changé !");
-}
-
-function changePassword(){
-  const oldPass=document.getElementById("oldPass").value;
-  const newPass=document.getElementById("newPass").value;
-  const newPass2=document.getElementById("newPass2").value;
-  if(!oldPass || !newPass) return alert("Champs manquants");
-  if(oldPass!==accounts[currentUser]) return alert("Ancien mot de passe incorrect");
-  if(newPass!==newPass2) return alert("Les mots de passe ne correspondent pas");
-  accounts[currentUser]=newPass;
-  localStorage.setItem("accounts", JSON.stringify(accounts));
-  alert("Mot de passe changé !");
-}
-
-// --- ADMIN FUNCTIONS ---
-function checkAdminAccess(){
-  document.getElementById("adminForumSection").style.display =
-    currentUser===adminUsername ? "block" : "none";
-}
-
+/* ---------------- ADMIN ---------------- */
 function createForum(){
   const code=document.getElementById("newForumCode").value.trim();
   const name=document.getElementById("newForumName").value.trim();
-  if(!code || !name){
-    document.getElementById("adminMsg").textContent="Remplis tous les champs";
-    document.getElementById("adminMsg").className="message error";
-    return;
-  }
-  if(validCodes[code]){
-    document.getElementById("adminMsg").textContent="Code déjà existant";
-    document.getElementById("adminMsg").className="message error";
-    return;
-  }
+  if(!code || !name){document.getElementById("adminMsg").innerText="Remplis tous les champs"; return;}
   validCodes[code]=name;
-  localStorage.setItem("validCodes", JSON.stringify(validCodes));
-  document.getElementById("adminMsg").textContent="Forum créé !";
-  document.getElementById("adminMsg").className="message success";
+  localStorage.setItem("validCodes",JSON.stringify(validCodes));
+  document.getElementById("adminMsg").innerText="Forum créé !";
+  document.getElementById("newForumCode").value="";
+  document.getElementById("newForumName").value="";
   renderAdminForumList();
 }
 
 function renderAdminForumList(){
-  const list=document.getElementById("adminForumList");
-  list.innerHTML="";
-  for(const code in validCodes){
+  const box=document.getElementById("adminForumList");
+  box.innerHTML="";
+  for(const c in validCodes){
     const div=document.createElement("div");
-    div.textContent=code+" : "+validCodes[code];
-    list.appendChild(div);
+    div.textContent=c+" : "+validCodes[c];
+    box.appendChild(div);
   }
 }
 
-// INIT ON LOAD
-if(currentUser){
-  document.getElementById("paramBtn").style.display="inline-block";
-  initUser();
-  checkAdminAccess();
-  showSection("note");
-} else showSection("auth");
+/* ---------------- LOGOUT ---------------- */
+function logout(){
+  currentUser=null;
+  localStorage.removeItem("currentUser");
+  location.reload();
+}
 
+/* ---------------- INIT ---------------- */
+if(currentUser){
+  document.getElementById("currentUserDisplay").innerText=currentUser;
+  document.getElementById("userRole").innerText=currentUser===adminUsername?" (Admin)":"";
+  initUser();
+  showSection('forum');
+}else showSection('account');
 </script>
 
 </body>
