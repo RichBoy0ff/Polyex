@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
@@ -6,221 +6,469 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-/* ----------------------- */
-/* THEME MAUVE + TURQUOISE */
-/* ----------------------- */
-
+/* === THEME VARIABLES === */
 :root {
-  --violet: #7f5af0;          /* Mauve moderne */
+  --violet: #7f5af0;
   --violet-dark: #5a3dcf;
-  --turquoise: #4acfd1;       /* Turquoise doux */
-  --turquoise-light: #76e3e5; /* Turquoise pastel */
+  --turquoise: #4acfd1;
+  --turquoise-light: #76e3e5;
   --bg: #f5f7fb;
   --text: #222;
   --panel: #ffffff;
   --border: #e5e7eb;
 }
 
+/* === GLOBAL === */
 body{
-  font-family:Arial;
+  font-family:Arial, sans-serif;
   background:var(--bg);
   margin:0;
   padding:0;
   color:var(--text);
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* HEADER --------------------------------------------------- */
-
+/* === HEADER === */
 header{
   background:var(--violet);
   color:#fff;
-  padding:12px 16px;
+  padding:12px 14px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  position:relative;
-  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  position:sticky;
+  top:0;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
 }
 
 header h1{
-  margin:0;
-  font-size:18px;
   flex-grow:1;
   text-align:center;
+  margin:0;
+  font-size:20px;
 }
 
+/* Burger */
 .burger{
-  width:30px;cursor:pointer;
+  width:30px;
+  height:20px;
   display:flex;
   flex-direction:column;
   justify-content:space-between;
-  height:20px;
+  cursor:pointer;
 }
 .burger div{
   height:4px;
-  background:#fff;
+  background:white;
   border-radius:2px;
 }
 
+/* Paramètre */
 #paramBtn{
-  padding:6px 12px;
+  display:none;
   background:var(--turquoise);
-  color:#fff;
+  padding:8px 12px;
   border:none;
   border-radius:6px;
+  color:white;
   cursor:pointer;
-  display:none;
-  box-shadow:0 2px 6px rgba(0,0,0,0.3);
 }
 #paramBtn:hover{
   background:var(--turquoise-light);
 }
 
-#userRole{
-  margin-left:10px;
-  font-size:14px;
-  color:#ffd700;
-}
-
-/* MENU LATERAL --------------------------------------------- */
-
+/* === MENU LATERAL === */
 #sideMenu{
   position:fixed;
   top:0;
   left:-260px;
-  width:260px;
+  width:240px;
   height:100%;
   background:var(--violet-dark);
-  color:#fff;
-  padding-top:64px;
+  padding-top:70px;
   transition:0.25s;
   z-index:20;
 }
-
 #sideMenu button{
-  width:86%;
-  margin:8px auto;
-  display:block;
+  width:85%;
+  margin:10px auto;
   padding:12px;
-  background:var(--violet);
   border:none;
-  color:#fff;
   border-radius:6px;
+  background:rgba(255,255,255,0.1);
+  color:white;
   cursor:pointer;
-  transition:0.25s;
 }
 #sideMenu button:hover{
-  background:var(--turquoise);
+  background:rgba(255,255,255,0.2);
 }
 
-/* MAIN ------------------------------------------------------ */
-
+/* === PANELS === */
 main{
-  padding:24px;
-  margin-left:0;
-  transition:0.25s;
+  padding:14px;
 }
-
-.section{display:none}
-.active{display:block}
-
-/* PANELS ----------------------------------------------------- */
 
 .panel{
-  background:var(--panel);
-  padding:20px;
+  background:white;
+  padding:16px;
   border-radius:10px;
-  box-shadow:0 3px 10px rgba(0,0,0,0.1);
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
   max-width:800px;
-  margin:12px auto;
-  text-align:left;
-  border:1px solid var(--border);
+  margin:auto;
+  margin-top:15px;
 }
 
-/* INPUT + TEXTAREAS ------------------------------------------ */
+.section{ display:none; }
+.active{ display:block; }
 
-textarea, input{
+/* Inputs */
+input, textarea{
   width:100%;
   padding:10px;
-  font-size:14px;
-  border-radius:6px;
+  border-radius:8px;
   border:1px solid var(--border);
+  margin:6px 0;
+  font-size:15px;
 }
+textarea { height:130px; resize:vertical; }
 
-textarea{
-  height:120px;
-  resize:vertical;
-}
-
-/* BOUTONS ----------------------------------------------------- */
-
+/* Buttons */
 button.btn{
-  padding:8px 12px;
-  background:var(--turquoise);
-  color:#fff;
+  background:var(--violet);
+  color:white;
+  padding:10px 14px;
   border:none;
-  border-radius:6px;
+  border-radius:8px;
   cursor:pointer;
-  transition:0.25s;
 }
 button.btn:hover{
-  background:var(--turquoise-light);
+  background:var(--violet-dark);
 }
 
 button.ghost{
-  background:#eee;
-  color:#333;
+  background:#e5e5e5;
+  color:#222;
 }
 
-/* FORUM ------------------------------------------------------- */
-
+/* Forum messages */
 .post{
-  background:#fff;
-  border:1px solid var(--border);
+  background:white;
   padding:10px;
   border-radius:8px;
+  border:1px solid var(--border);
   margin-bottom:10px;
 }
-
 .post img{
-  max-width:200px;
+  max-width:100%;
+  max-height:260px;
   border-radius:8px;
+  margin-top:6px;
 }
-
 .meta{
   font-size:12px;
   color:#666;
   margin-bottom:4px;
 }
-
-.forumList button{
-  background:var(--violet);
-  border:none;
-  color:#fff;
-  padding:8px 10px;
-  border-radius:6px;
-  margin:4px 2px;
-  cursor:pointer;
-}
-.forumList button:hover{
-  background:var(--turquoise);
-}
-
-/* MESSAGES ---------------------------------------------------- */
-
-.message.success{ color:var(--turquoise); font-weight:bold; }
-.message.error{ color:#ff4d4d; font-weight:bold; }
-
-/* PARAMÈTRES -------------------------------------------------- */
-
-#adminForumSection{
-  border-top:1px solid var(--border);
-  padding-top:12px;
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- LE RESTE DE TON CODE HTML ET JS RESTE IDENTIQUE -->
+<header>
+  <div class="burger" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+  </div>
+  <h1>Polyex Outils</h1>
+  <button id="paramBtn" onclick="showSection('params')">Paramètres</button>
+</header>
+
+<!-- MENU -->
+<div id="sideMenu">
+  <button onclick="showSection('auth'); toggleMenu()">Compte / Connexion</button>
+  <button onclick="showSection('note'); toggleMenu()">Bloc-notes</button>
+  <button onclick="showSection('rdv'); toggleMenu()">Rendez-vous</button>
+  <button onclick="showSection('forum'); toggleMenu()">Forum</button>
+  <button onclick="showSection('help'); toggleMenu()">Aide</button>
+</div>
+
+<main>
+
+<!-- AUTH -->
+<div id="auth" class="section panel">
+  <h2>Connexion / Inscription</h2>
+  <input id="authUser" placeholder="Nom d'utilisateur">
+  <input id="authPass" type="password" placeholder="Mot de passe">
+  <input id="authPass2" type="password" placeholder="Répéter mot de passe (inscription)">
+  <button class="btn" onclick="register()">S'inscrire</button>
+  <button class="btn" onclick="login()">Se connecter</button>
+  <p id="authMsg" class="message"></p>
+</div>
+
+<!-- NOTE -->
+<div id="note" class="section panel">
+  <h2>Bloc-notes</h2>
+  <textarea id="notepad"></textarea>
+  <button class="btn" onclick="saveNote()">Sauvegarder</button>
+</div>
+
+<!-- RDV -->
+<div id="rdv" class="section panel">
+  <h2>Rendez-vous</h2>
+  <input id="rdvName" placeholder="Titre">
+  <input id="rdvDate" type="date">
+  <input id="rdvTime" type="time">
+  <button class="btn" onclick="addRdv()">Ajouter</button>
+  <div id="rdvList"></div>
+</div>
+
+<!-- FORUM -->
+<div id="forum" class="section panel">
+  <h2>Forum</h2>
+
+  <div id="forumAccess">
+    <p>Entrer un code de forum :</p>
+    <input id="forumCode" placeholder="Code d'accès">
+    <button class="btn" onclick="joinForum()">Entrer</button>
+  </div>
+
+  <div id="joinedForums" style="margin-top:10px"></div>
+
+  <div id="forumArea" style="display:none;margin-top:15px">
+      <h3 id="forumTitle"></h3>
+
+      <textarea id="postText" placeholder="Écris un message..."></textarea>
+      <input type="file" id="postImage" accept="image/*">
+
+      <button class="btn" onclick="addPost()">Poster</button>
+
+      <h4>Messages</h4>
+      <div id="postsList"></div>
+
+      <button class="ghost" onclick="closeForum()">Fermer</button>
+  </div>
+</div>
+
+<!-- PARAMETRES -->
+<div id="params" class="section panel">
+  <h2>Paramètres</h2>
+  <p>Changer de pseudo :</p>
+  <input id="newUser">
+  <button class="btn" onclick="changeUsername()">Valider</button>
+
+  <p style="margin-top:10px;">Changer de mot de passe :</p>
+  <input id="oldPass" type="password" placeholder="Ancien mot de passe">
+  <input id="newPass" type="password" placeholder="Nouveau mot de passe">
+  <input id="newPass2" type="password" placeholder="Confirmer">
+  <button class="btn" onclick="changePassword()">Valider</button>
+
+  <p style="margin-top:10px;">Session :</p>
+  <button class="ghost" onclick="logout()">Déconnexion</button>
+</div>
+
+<!-- AIDE -->
+<div id="help" class="section panel">
+  <h2>Aide</h2>
+  <ul>
+    <li>Forums sauvegardés automatiquement</li>
+    <li>Rejoint + recharge automatique au démarrage</li>
+    <li>Compatible iPhone / Android / PC</li>
+  </ul>
+</div>
+
+</main>
+
+<script>
+/* ---------------- MENU ---------------- */
+function toggleMenu(){
+  const menu=document.getElementById("sideMenu");
+  menu.style.left = menu.style.left==="0px" ? "-260px" : "0px";
+}
+
+function showSection(id){
+  document.querySelectorAll('.section').forEach(x => x.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* ---------------- AUTH ---------------- */
+let accounts = JSON.parse(localStorage.getItem("accounts")||"{}");
+let currentUser = localStorage.getItem("currentUser") || null;
+
+function register(){
+  let u=document.getElementById("authUser").value.trim();
+  let p=document.getElementById("authPass").value;
+  let p2=document.getElementById("authPass2").value;
+
+  if(!u||!p) return alert("Champs manquants");
+  if(p!==p2) return alert("Les mots de passe ne correspondent pas");
+  if(accounts[u]) return alert("Nom déjà pris");
+
+  accounts[u]=p;
+  localStorage.setItem("accounts", JSON.stringify(accounts));
+  alert("Compte créé !");
+}
+
+function login(){
+  let u=document.getElementById("authUser").value.trim();
+  let p=document.getElementById("authPass").value;
+
+  if(accounts[u] && accounts[u]===p){
+    currentUser=u;
+    localStorage.setItem("currentUser", u);
+    document.getElementById("paramBtn").style.display="inline-block";
+    initUser();
+    showSection("note");
+  }
+  else alert("Login incorrect");
+}
+
+/* ---------------- INIT USER ---------------- */
+let forums = JSON.parse(localStorage.getItem("forums")||"{}");
+let validCodes = JSON.parse(localStorage.getItem("validCodes")||'{"SPORT01":"Sport","MUSIC01":"Musique"}');
+
+let joinedForums = [];
+let currentForum = null;
+
+function initUser(){
+  joinedForums = JSON.parse(localStorage.getItem("joinedForums_"+currentUser)||"[]");
+
+  renderJoinedForums();
+
+  let last = localStorage.getItem("lastForum_"+currentUser);
+  if(last) openForum(last);
+
+  document.getElementById("notepad").value = localStorage.getItem("note_"+currentUser)||"";
+}
+
+if(currentUser){
+  document.getElementById("paramBtn").style.display="inline-block";
+  initUser();
+  showSection("note");
+} else showSection("auth");
+
+/* ---------------- NOTE ---------------- */
+function saveNote(){
+  localStorage.setItem("note_"+currentUser, document.getElementById("notepad").value);
+  alert("Sauvegardé !");
+}
+
+/* ---------------- RDV ---------------- */
+function addRdv(){
+  const div=document.createElement("div");
+  div.textContent = document.getElementById("rdvName").value+" — "+document.getElementById("rdvDate").value+" "+document.getElementById("rdvTime").value;
+  document.getElementById("rdvList").appendChild(div);
+}
+
+/* ---------------- FORUM ---------------- */
+function joinForum(){
+  let code=document.getElementById("forumCode").value.trim();
+  if(!validCodes[code]) return alert("Code invalide");
+
+  if(!joinedForums.includes(code)){
+    joinedForums.push(code);
+    localStorage.setItem("joinedForums_"+currentUser, JSON.stringify(joinedForums));
+  }
+
+  renderJoinedForums();
+  openForum(code);
+}
+
+function renderJoinedForums(){
+  const box=document.getElementById("joinedForums");
+  box.innerHTML="";
+  joinedForums.forEach(code=>{
+    const b=document.createElement("button");
+    b.className="btn";
+    b.textContent=validCodes[code];
+    b.onclick=()=>openForum(code);
+    box.appendChild(b);
+  });
+}
+
+function openForum(code){
+  currentForum=code;
+  localStorage.setItem("lastForum_"+currentUser, code);
+
+  document.getElementById("forumArea").style.display="block";
+  document.getElementById("forumTitle").textContent = validCodes[code];
+  renderPosts();
+}
+
+function closeForum(){
+  currentForum=null;
+  document.getElementById("forumArea").style.display="none";
+}
+
+function addPost(){
+  if(!currentForum) return;
+
+  const text=document.getElementById("postText").value.trim();
+  const file=document.getElementById("postImage").files[0];
+
+  if(!text && !file) return alert("Message vide");
+
+  if(file){
+    const reader=new FileReader();
+    reader.onload=e=>savePost(text,e.target.result);
+    reader.readAsDataURL(file);
+  } else savePost(text,null);
+
+  document.getElementById("postText").value="";
+  document.getElementById("postImage").value="";
+}
+
+function savePost(text,image){
+  if(!forums[currentForum]) forums[currentForum]=[];
+  forums[currentForum].push({
+    user:currentUser,
+    text,
+    image,
+    date:new Date().toLocaleString()
+  });
+
+  localStorage.setItem("forums", JSON.stringify(forums));
+  renderPosts();
+}
+
+function renderPosts(){
+  const box=document.getElementById("postsList");
+  box.innerHTML="";
+
+  if(!forums[currentForum]) return;
+
+  forums[currentForum].forEach(p=>{
+    const div=document.createElement("div");
+    div.className="post";
+
+    const meta=document.createElement("div");
+    meta.className="meta";
+    meta.textContent=p.user+" — "+p.date;
+
+    div.appendChild(meta);
+
+    if(p.text){
+      const t=document.createElement("p");
+      t.textContent=p.text;
+      div.appendChild(t);
+    }
+
+    if(p.image){
+      const img=document.createElement("img");
+      img.src=p.image;
+      div.appendChild(img);
+    }
+
+    box.appendChild(div);
+  });
+}
+
+/* ---------------- PARAMS ---------------- */
+function logout(){
+  currentUser=null;
+  localStorage.removeItem("currentUser");
+  showSection("auth");
+  location.reload();
+}
+</script>
+
+</body>
+</html>
