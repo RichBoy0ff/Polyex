@@ -5,6 +5,7 @@
 <title>Polyex</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+/* === COULEURS === */
 :root {
   --violet: #6b42c1;
   --violet-dark: #4a2a8c;
@@ -16,6 +17,7 @@
   --border: #444;
 }
 
+/* === GLOBAL === */
 body {
   margin:0;
   font-family:Arial,sans-serif;
@@ -23,369 +25,395 @@ body {
   color: var(--text);
 }
 
-header {
+/* === HEADER === */
+header{
   background: var(--violet);
   color: var(--text);
-  padding: 15px;
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
-  position: sticky;
+  padding:12px 16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
   top:0;
-  z-index: 10;
+  z-index:10;
 }
 
-nav {
-  background: var(--violet-dark);
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 10px;
-  position: sticky;
-  top: 55px;
-  z-index:9;
+header h1{
+  flex-grow:1;
+  text-align:center;
+  margin:0;
+  font-size:20px;
 }
 
-nav button {
-  background: var(--turquoise);
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  color: var(--bg);
-  cursor: pointer;
+/* BURGER */
+.burger{
+  width:30px;
+  height:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  cursor:pointer;
+}
+.burger div{
+  height:4px;
+  background:white;
+  border-radius:2px;
 }
 
-nav button:hover {
-  background: var(--turquoise-light);
+/* PSEUDO CONNECTÉ */
+#userRole{
+  margin-left:10px;
+  font-weight:bold;
+  color: var(--turquoise-light);
 }
 
-.section { display:none; padding: 15px; }
+/* PARAM BTN */
+#paramBtn{
+  display:none;
+  background:var(--turquoise);
+  padding:6px 12px;
+  border:none;
+  border-radius:6px;
+  color:var(--bg);
+  cursor:pointer;
+}
+#paramBtn:hover{ background: var(--turquoise-light); }
 
-.panel {
+/* MENU LATERAL */
+#sideMenu{
+  position:fixed;
+  top:0;
+  left:-260px;
+  width:240px;
+  height:100%;
+  background:var(--violet-dark);
+  padding-top:70px;
+  transition:0.25s;
+  z-index:20;
+}
+#sideMenu button{
+  width:85%;
+  margin:10px auto;
+  padding:12px;
+  border:none;
+  border-radius:6px;
+  background:rgba(255,255,255,0.1);
+  color:white;
+  cursor:pointer;
+}
+#sideMenu button:hover{
+  background:rgba(255,255,255,0.2);
+}
+
+/* PANELS */
+main{ padding:14px; }
+.panel{
   background: var(--panel);
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 20px;
+  border-radius:10px;
+  padding:15px;
+  margin-bottom:15px;
 }
+.section{ display:none; }
+.active{ display:block; }
 
-input, textarea {
+/* INPUTS */
+input, textarea{
   width:100%;
   padding:10px;
   margin:6px 0;
   border-radius:8px;
   border:1px solid var(--border);
-  background: #1f1f35;
+  background:#1f1f35;
   color: var(--text);
 }
+textarea{ height:130px; resize:vertical; }
 
-textarea { resize: vertical; height: 120px; }
-
-button.btn {
-  background: var(--turquoise);
-  color: var(--bg);
+/* BUTTONS */
+button.btn{
+  background:var(--turquoise);
+  color:var(--bg);
   border:none;
-  padding:10px 16px;
+  padding:10px 14px;
   border-radius:8px;
   cursor:pointer;
   font-weight:bold;
   margin-top:5px;
 }
-
-button.btn:hover {
-  background: var(--turquoise-light);
-}
-
-button.ghost {
-  background: var(--violet-dark);
+button.btn:hover{ background: var(--turquoise-light); }
+button.ghost{
+  background:var(--violet-dark);
   color: var(--text);
 }
 
-.post {
+/* POSTS FORUM */
+.post{
   background: #2b2b45;
-  padding: 10px;
+  padding:10px;
   border-radius:8px;
   margin-bottom:10px;
-  border-left: 4px solid var(--turquoise);
+  border-left:4px solid var(--turquoise);
 }
-
-.post img {
+.post img{
   max-width:100%;
   max-height:250px;
   border-radius:6px;
   margin-top:6px;
 }
-
-.meta {
+.meta{
   font-size:12px;
   color:#ccc;
   margin-bottom:5px;
 }
-.message {padding:8px;border-radius:6px;margin-top:6px;font-weight:bold;}
-.success {background:#2ecc71;}
-.error {background:#e74c3c;}
+.message{padding:8px;border-radius:6px;margin-top:6px;font-weight:bold;}
+.success{background:#2ecc71;}
+.error{background:#e74c3c;}
 </style>
 </head>
 <body>
 
-<header>POLYEX <span id="userRole"></span></header>
-
-<nav>
-  <button onclick="showSection('forum')">Forums</button>
-  <button onclick="showSection('note')">Bloc-notes</button>
-  <button onclick="showSection('rdv')">Rendez-vous</button>
-  <button onclick="showSection('params')">Paramètres</button>
-  <button onclick="showSection('account')">Compte</button>
-</nav>
-
-<!-- FORUM -->
-<div id="forum" class="section">
-  <h2>Forums</h2>
-  <div>
-    <input id="forumCode" placeholder="Code du forum">
-    <button class="btn" onclick="joinForum()">Entrer</button>
+<header>
+  <div style="display:flex;align-items:center;">
+    <div class="burger" onclick="toggleMenu()"><div></div><div></div><div></div></div>
+    <span id="userRole"></span>
   </div>
-  <div id="joinedForums" style="margin-top:10px;"></div>
-  <div id="forumArea" style="display:none;margin-top:10px;">
-    <h3 id="forumTitle"></h3>
-    <textarea id="postText" placeholder="Écris ton message"></textarea>
-    <input type="file" id="postImage" accept="image/*">
-    <button class="btn" onclick="addPost()">Poster</button>
-    <h4>Messages</h4>
-    <div id="postsList"></div>
-    <button class="ghost" onclick="closeForum()">Fermer le forum</button>
-  </div>
+  <h1>Polyex Outils</h1>
+  <button id="paramBtn" onclick="showSection('params')">Paramètres</button>
+</header>
+
+<div id="sideMenu">
+  <button onclick="showSection('auth'); toggleMenu()">Compte / Connexion</button>
+  <button onclick="showSection('note'); toggleMenu()">Bloc-notes</button>
+  <button onclick="showSection('rdv'); toggleMenu()">Rendez-vous</button>
+  <button onclick="showSection('forum'); toggleMenu()">Forum</button>
+  <button onclick="showSection('params'); toggleMenu()">Paramètres</button>
 </div>
 
-<!-- BLOC-NOTES -->
-<div id="note" class="section">
+<main>
+<!-- AUTH -->
+<div id="auth" class="section panel">
+  <h2>Connexion / Inscription</h2>
+  <input id="authUser" placeholder="Nom d'utilisateur">
+  <input id="authPass" type="password" placeholder="Mot de passe">
+  <input id="authPass2" type="password" placeholder="Répéter mot de passe">
+  <button class="btn" onclick="register()">S'inscrire</button>
+  <button class="btn" onclick="login()">Se connecter</button>
+  <p id="authMsg" class="message"></p>
+</div>
+
+<!-- NOTE -->
+<div id="note" class="section panel">
   <h2>Bloc-notes</h2>
-  <textarea id="notepad" placeholder="Écris ici..."></textarea>
+  <textarea id="notepad"></textarea>
   <button class="btn" onclick="saveNote()">Sauvegarder</button>
 </div>
 
-<!-- RENDEZ-VOUS -->
-<div id="rdv" class="section">
+<!-- RDV -->
+<div id="rdv" class="section panel">
   <h2>Rendez-vous</h2>
   <input id="rdvTitle" placeholder="Titre">
   <input id="rdvDate" type="date">
   <input id="rdvTime" type="time">
   <button class="btn" onclick="addRdv()">Ajouter</button>
-  <div id="rdvList" style="margin-top:10px;"></div>
+  <div id="rdvList"></div>
 </div>
 
-<!-- PARAMÈTRES -->
-<div id="params" class="section">
-  <h2>Paramètres</h2>
-  <p>Connecté en : <b id="currentUserDisplay">Aucun</b></p>
+<!-- FORUM -->
+<div id="forum" class="section panel">
+  <h2>Forum</h2>
+  <input id="forumCode" placeholder="Code d'accès">
+  <button class="btn" onclick="joinForum()">Entrer</button>
+  <div id="joinedForums"></div>
+  <div id="forumArea" style="display:none;margin-top:15px">
+    <h3 id="forumTitle"></h3>
+    <textarea id="postText" placeholder="Écris ton message..."></textarea>
+    <input type="file" id="postImage" accept="image/*">
+    <button class="btn" onclick="addPost()">Poster</button>
+    <h4>Messages</h4>
+    <div id="postsList"></div>
+    <button class="ghost" onclick="closeForum()">Fermer</button>
+  </div>
+</div>
 
-  <!-- SECTION ADMIN -->
-  <div id="adminForumSection" style="display:none; margin-top:15px; padding:10px; background:#1f1f35; border-radius:8px;">
+<!-- PARAMS -->
+<div id="params" class="section panel">
+  <h2>Paramètres</h2>
+  <p>Changer de pseudo :</p>
+  <input id="newUser">
+  <button class="btn" onclick="changeUsername()">Valider</button>
+  <p>Changer de mot de passe :</p>
+  <input id="oldPass" type="password" placeholder="Ancien">
+  <input id="newPass" type="password" placeholder="Nouveau">
+  <input id="newPass2" type="password" placeholder="Confirmer">
+  <button class="btn" onclick="changePassword()">Valider</button>
+
+  <!-- ADMIN -->
+  <div id="adminForumSection" style="margin-top:15px;border-top:1px solid var(--border);padding-top:10px;display:none;">
     <h3>Créer un forum (Admin)</h3>
-    <input id="newForumCode" placeholder="Code du forum (ex: SPORT01)">
-    <input id="newForumName" placeholder="Nom du forum">
+    <input id="newForumCode" placeholder="Code forum">
+    <input id="newForumName" placeholder="Nom forum">
     <button class="btn" onclick="createForum()">Créer</button>
-    <p id="adminMsg"></p>
-    <h3>Forums existants</h3>
     <div id="adminForumList"></div>
   </div>
 
-  <button class="ghost" style="margin-top:15px;" onclick="logout()">Déconnexion</button>
+  <button class="ghost" onclick="logout()">Déconnexion</button>
 </div>
 
-<!-- COMPTE -->
-<div id="account" class="section">
-  <h2>Connexion</h2>
-  <input id="loginUser" placeholder="Nom d'utilisateur">
-  <input id="loginPass" type="password" placeholder="Mot de passe">
-  <button class="btn" onclick="login()">Se connecter</button>
-  <div id="accountMsg"></div>
-</div>
+</main>
 
 <script>
-/* ---------------- STOCKAGE ---------------- */
-let accounts = JSON.parse(localStorage.getItem("accounts")||"{}");
-let currentUser = localStorage.getItem("currentUser") || null;
-let validCodes = JSON.parse(localStorage.getItem("validCodes")||'{"SPORT01":"Sport","MUSIC01":"Musique"}');
-let forums = JSON.parse(localStorage.getItem("forums")||"{}");
-let joinedForums = [];
-let currentForum = null;
+// === MENU ===
+function toggleMenu(){
+  const menu=document.getElementById("sideMenu");
+  menu.style.left = menu.style.left==="0px" ? "-260px" : "0px";
+}
+function showSection(id){
+  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
-/* Création automatique compte admin */
+// === AUTH ===
+let accounts=JSON.parse(localStorage.getItem("accounts")||"{}");
+let currentUser=localStorage.getItem("currentUser")||null;
 const adminUsername="Admin";
 const adminPassword="Admin345";
-if(!accounts[adminUsername]){
-  accounts[adminUsername] = adminPassword;
-  localStorage.setItem("accounts",JSON.stringify(accounts));
-}
+if(!accounts[adminUsername]){accounts[adminUsername]=adminPassword; localStorage.setItem("accounts", JSON.stringify(accounts));}
 
-/* ---------------- NAVIGATION ---------------- */
-function showSection(id){
-  document.querySelectorAll(".section").forEach(s=>s.style.display="none");
-  document.getElementById(id).style.display="block";
+function register(){
+  const u=document.getElementById("authUser").value.trim();
+  const p=document.getElementById("authPass").value;
+  const p2=document.getElementById("authPass2").value;
+  if(!u||!p){alert("Champs manquants");return;}
+  if(p!==p2){alert("Les mots de passe ne correspondent pas");return;}
+  if(accounts[u]){alert("Utilisateur déjà existant");return;}
+  accounts[u]=p; localStorage.setItem("accounts", JSON.stringify(accounts));
+  alert("Compte créé !");
 }
-
-/* ---------------- LOGIN ---------------- */
 function login(){
-  const user = document.getElementById("loginUser").value.trim();
-  const pass = document.getElementById("loginPass").value.trim();
-  if(!accounts[user] || accounts[user]!==pass){
-    document.getElementById("accountMsg").innerHTML="<div class='message error'>Identifiants incorrects</div>";
-    return;
-  }
-  currentUser=user;
-  localStorage.setItem("currentUser",user);
-  document.getElementById("currentUserDisplay").innerText=currentUser;
-  document.getElementById("userRole").innerText=user===adminUsername ? " (Admin)" : "";
-  initUser();
-  showSection('forum');
+  const u=document.getElementById("authUser").value.trim();
+  const p=document.getElementById("authPass").value;
+  if(accounts[u] && accounts[u]===p){
+    currentUser=u; localStorage.setItem("currentUser", u);
+    document.getElementById("userRole").textContent=u;
+    document.getElementById("paramBtn").style.display="inline-block";
+    initUser();
+    showSection("note");
+  } else alert("Login incorrect");
+}
+function logout(){
+  currentUser=null; localStorage.removeItem("currentUser"); showSection("auth"); location.reload();
 }
 
-/* ---------------- INIT USER ---------------- */
+// === INIT USER DATA ===
+let forums=JSON.parse(localStorage.getItem("forums")||"{}");
+let validCodes=JSON.parse(localStorage.getItem("validCodes")||'{"SPORT01":"Sport","MUSIC01":"Musique"}');
+let joinedForums=[],currentForum=null;
+
 function initUser(){
-  joinedForums = JSON.parse(localStorage.getItem("joinedForums_"+currentUser)||"[]");
+  joinedForums=JSON.parse(localStorage.getItem("joinedForums_"+currentUser)||"[]");
   renderJoinedForums();
-  renderAdminForumList();
-  document.getElementById("adminForumSection").style.display = currentUser===adminUsername?"block":"none";
+  document.getElementById("notepad").value=localStorage.getItem("note_"+currentUser)||"";
+  document.getElementById("userRole").textContent=currentUser;
+  checkAdminAccess();
 
-  const last = localStorage.getItem("lastForum_"+currentUser);
+  const last=localStorage.getItem("lastForum_"+currentUser);
   if(last) openForum(last);
-
-  document.getElementById("notepad").value = localStorage.getItem("note_"+currentUser)||"";
 }
 
-/* ---------------- BLOC-NOTES ---------------- */
-function saveNote(){
-  localStorage.setItem("note_"+currentUser,document.getElementById("notepad").value);
-  alert("Bloc-notes sauvegardé !");
-}
+// === BLOC-NOTES ===
+function saveNote(){ localStorage.setItem("note_"+currentUser, document.getElementById("notepad").value); alert("Sauvegardé !"); }
 
-/* ---------------- RENDEZ-VOUS ---------------- */
+// === RDV ===
 function addRdv(){
-  const title=document.getElementById("rdvTitle").value.trim();
-  const date=document.getElementById("rdvDate").value;
-  const time=document.getElementById("rdvTime").value;
-  if(!title || !date || !time) return alert("Remplis tous les champs");
   const div=document.createElement("div");
-  div.textContent=`${title} — ${date} ${time}`;
+  div.textContent=document.getElementById("rdvTitle").value+" — "+document.getElementById("rdvDate").value+" "+document.getElementById("rdvTime").value;
   document.getElementById("rdvList").appendChild(div);
 }
 
-/* ---------------- FORUM ---------------- */
+// === FORUM ===
 function joinForum(){
-  const code = document.getElementById("forumCode").value.trim();
-  if(!validCodes[code]) return alert("Code invalide");
-  if(!joinedForums.includes(code)) joinedForums.push(code);
-  localStorage.setItem("joinedForums_"+currentUser,JSON.stringify(joinedForums));
-  renderJoinedForums();
-  openForum(code);
-  document.getElementById("forumCode").value="";
+  const code=document.getElementById("forumCode").value.trim();
+  if(!validCodes[code]){alert("Code invalide");return;}
+  if(!joinedForums.includes(code)){joinedForums.push(code); localStorage.setItem("joinedForums_"+currentUser, JSON.stringify(joinedForums));}
+  renderJoinedForums(); openForum(code); document.getElementById("forumCode").value="";
 }
-
 function renderJoinedForums(){
-  const box=document.getElementById("joinedForums");
-  box.innerHTML="";
-  joinedForums.forEach(c=>{
+  const box=document.getElementById("joinedForums"); box.innerHTML="";
+  joinedForums.forEach(code=>{
     const b=document.createElement("button");
-    b.className="btn";
-    b.textContent=validCodes[c];
-    b.onclick=()=>openForum(c);
+    b.className="btn"; b.textContent=validCodes[code]; b.onclick=()=>openForum(code);
     box.appendChild(b);
   });
 }
-
 function openForum(code){
-  currentForum=code;
-  localStorage.setItem("lastForum_"+currentUser,code);
-  document.getElementById("forumTitle").textContent=validCodes[code];
+  currentForum=code; localStorage.setItem("lastForum_"+currentUser, code);
   document.getElementById("forumArea").style.display="block";
+  document.getElementById("forumTitle").textContent=validCodes[code];
   renderPosts();
 }
-
-function closeForum(){
-  currentForum=null;
-  document.getElementById("forumArea").style.display="none";
-}
-
+function closeForum(){ currentForum=null; document.getElementById("forumArea").style.display="none"; }
 function addPost(){
-  if(!currentForum) return;
-  const text=document.getElementById("postText").value.trim();
+  if(!currentForum) return; const text=document.getElementById("postText").value.trim();
   const file=document.getElementById("postImage").files[0];
-  if(!text && !file) return alert("Message vide");
-  if(!forums[currentForum]) forums[currentForum]=[];
-  if(file){
-    const reader=new FileReader();
-    reader.onload=e=>{
-      forums[currentForum].push({user:currentUser,text,image:e.target.result,date:new Date().toLocaleString()});
-      localStorage.setItem("forums",JSON.stringify(forums));
-      renderPosts();
-    };
-    reader.readAsDataURL(file);
-  } else {
-    forums[currentForum].push({user:currentUser,text,image:null,date:new Date().toLocaleString()});
-    localStorage.setItem("forums",JSON.stringify(forums));
-    renderPosts();
-  }
-  document.getElementById("postText").value="";
-  document.getElementById("postImage").value="";
+  if(!text && !file){alert("Message vide"); return;}
+  if(file){ const reader=new FileReader(); reader.onload=e=>savePost(text,e.target.result); reader.readAsDataURL(file);}
+  else savePost(text,null);
+  document.getElementById("postText").value=""; document.getElementById("postImage").value="";
 }
-
+function savePost(text,image){
+  if(!forums[currentForum]) forums[currentForum]=[];
+  forums[currentForum].push({user:currentUser,text,image,date:new Date().toLocaleString()});
+  localStorage.setItem("forums", JSON.stringify(forums));
+  renderPosts();
+}
 function renderPosts(){
-  const box=document.getElementById("postsList");
-  box.innerHTML="";
+  const box=document.getElementById("postsList"); box.innerHTML="";
   if(!forums[currentForum]) return;
   forums[currentForum].forEach(p=>{
-    const div=document.createElement("div");
-    div.className="post";
-    const meta=document.createElement("div");
-    meta.className="meta";
-    meta.textContent=p.user+" — "+p.date;
-    div.appendChild(meta);
+    const div=document.createElement("div"); div.className="post";
+    const meta=document.createElement("div"); meta.className="meta"; meta.textContent=p.user+" — "+p.date; div.appendChild(meta);
     if(p.text){ const t=document.createElement("p"); t.textContent=p.text; div.appendChild(t);}
     if(p.image){ const img=document.createElement("img"); img.src=p.image; div.appendChild(img);}
     box.appendChild(div);
   });
 }
 
-/* ---------------- ADMIN ---------------- */
+// === PARAMS / ADMIN ===
+function changeUsername(){
+  const newUser=document.getElementById("newUser").value.trim();
+  if(!newUser){alert("Nom vide"); return;}
+  accounts[newUser]=accounts[currentUser]; delete accounts[currentUser]; currentUser=newUser;
+  localStorage.setItem("accounts", JSON.stringify(accounts)); localStorage.setItem("currentUser", newUser);
+  document.getElementById("userRole").textContent=currentUser; alert("Pseudo changé !");
+}
+
+function changePassword(){
+  const oldP=document.getElementById("oldPass").value;
+  const newP=document.getElementById("newPass").value;
+  const newP2=document.getElementById("newPass2").value;
+  if(oldP!==accounts[currentUser]){alert("Ancien mot de passe incorrect"); return;}
+  if(newP!==newP2){alert("Les mots de passe ne correspondent pas"); return;}
+  accounts[currentUser]=newP; localStorage.setItem("accounts", JSON.stringify(accounts)); alert("Mot de passe changé !");
+}
+
+// ADMIN FORUM
+function checkAdminAccess(){
+  document.getElementById("adminForumSection").style.display=currentUser===adminUsername?"block":"none";
+}
 function createForum(){
   const code=document.getElementById("newForumCode").value.trim();
   const name=document.getElementById("newForumName").value.trim();
-  if(!code || !name){document.getElementById("adminMsg").innerText="Remplis tous les champs"; return;}
-  validCodes[code]=name;
-  localStorage.setItem("validCodes",JSON.stringify(validCodes));
-  document.getElementById("adminMsg").innerText="Forum créé !";
-  document.getElementById("newForumCode").value="";
-  document.getElementById("newForumName").value="";
+  if(!code||!name){alert("Remplir tous les champs"); return;}
+  validCodes[code]=name; localStorage.setItem("validCodes", JSON.stringify(validCodes)); alert("Forum créé !");
   renderAdminForumList();
 }
-
 function renderAdminForumList(){
-  const box=document.getElementById("adminForumList");
-  box.innerHTML="";
-  for(const c in validCodes){
-    const div=document.createElement("div");
-    div.textContent=c+" : "+validCodes[c];
-    box.appendChild(div);
-  }
+  const list=document.getElementById("adminForumList"); list.innerHTML="";
+  for(const c in validCodes){ const div=document.createElement("div"); div.textContent=c+" : "+validCodes[c]; list.appendChild(div);}
 }
 
-/* ---------------- LOGOUT ---------------- */
-function logout(){
-  currentUser=null;
-  localStorage.removeItem("currentUser");
-  location.reload();
-}
-
-/* ---------------- INIT ---------------- */
-if(currentUser){
-  document.getElementById("currentUserDisplay").innerText=currentUser;
-  document.getElementById("userRole").innerText=currentUser===adminUsername?" (Admin)":"";
-  initUser();
-  showSection('forum');
-}else showSection('account');
+// === INIT ===
+if(currentUser){ document.getElementById("paramBtn").style.display="inline-block"; initUser(); showSection("note"); } 
+else showSection("auth");
 </script>
 
 </body>
